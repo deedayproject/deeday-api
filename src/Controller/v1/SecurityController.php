@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Form\UserRegisterType;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\DataHandler\UserHandler;
+use App\Form\UserRegisterType;
 
 class SecurityController extends AbstractController
 {
