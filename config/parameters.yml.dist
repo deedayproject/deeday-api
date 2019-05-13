@@ -1,0 +1,10 @@
+parameters:
+    app_secret: ''
+    database_driver: ''
+    database_version: ''
+    database_host: ''
+    database_port: ''
+    database_name: ''
+    database_user: ''
+    database_password: ''
+    rsa_key_password: ''
