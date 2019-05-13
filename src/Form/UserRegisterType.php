@@ -12,7 +12,7 @@ class UserRegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder
+        $builder
             ->add('firstname')
             ->add('lastname')
             ->add('username')
@@ -24,12 +24,12 @@ class UserRegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-			'data_class' => User::class,
-			'csrf_protection' => false,
-			'constraints' => new UniqueEntity([
-				'fields' => ['email'],
-				'message' => 'Email already in use',
-			]),
+            'data_class' => User::class,
+            'csrf_protection' => false,
+            'constraints' => new UniqueEntity([
+                'fields' => ['email'],
+                'message' => 'Email already in use',
+            ]),
         ]);
-	}
+    }
 }

@@ -18,23 +18,23 @@ class SecurityController extends AbstractController
     public function register(Request $request, UserHandler $userHandler): JsonResponse
     {
         $form = $this->createForm(UserRegisterType::class);
-		$form->submit($request->request->all());
+        $form->submit($request->request->all());
 
         if (!($form->isSubmitted() && $form->isValid())) {
-			$error = $form->getErrors(true)->current()->getMessage();
+            $error = $form->getErrors(true)->current()->getMessage();
             throw new BadRequestHttpException($error);
         }
 
-		$user = $form->getData();
+        $user = $form->getData();
         $user = $userHandler->register($user);
 
         return $this->json(
             $user,
-			JsonResponse::HTTP_CREATED,
-			[],
+            JsonResponse::HTTP_CREATED,
+            [],
             ['groups' => 'default']
         );
-	}
+    }
 
     /**
      * @Route("/login", name="login", methods={"POST"})
@@ -42,20 +42,20 @@ class SecurityController extends AbstractController
     public function login(Request $request, UserHandler $userHandler): JsonResponse
     {
         $form = $this->createForm(UserRegisterType::class);
-		$form->submit($request->request->all());
+        $form->submit($request->request->all());
 
         if (!($form->isSubmitted() && $form->isValid())) {
-			$error = $form->getErrors(true)->current()->getMessage();
+            $error = $form->getErrors(true)->current()->getMessage();
             throw new BadRequestHttpException($error);
         }
 
-		$user = $form->getData();
+        $user = $form->getData();
         $user = $userHandler->register($user);
 
         return $this->json(
             $user,
-			JsonResponse::HTTP_OK,
-			[],
+            JsonResponse::HTTP_OK,
+            [],
             ['groups' => 'default']
         );
     }
