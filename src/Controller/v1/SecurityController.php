@@ -7,8 +7,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use App\DataHandler\UserHandler;
 use App\Form\UserLoginType;
 use App\Form\UserRegisterType;
@@ -40,29 +38,26 @@ class SecurityController extends AbstractController
     }
 
     /**
-	 * @Route("/login", name="login", methods={"POST"})
-	 */
-	public function login(Request $request, UserHandler $userHandler): JsonResponse
-	{
-		$form = $this->createForm(UserLoginType::class);
-		$form->submit($request->request->all());
+     * @Route("/login", name="login", methods={"POST"})
+     */
+    public function login(Request $request, UserHandler $userHandler): JsonResponse
+    {
+        $form = $this->createForm(UserLoginType::class);
+        $form->submit($request->request->all());
 
-		if (!($form->isSubmitted() && $form->isValid())) {
-			$error = $form->getErrors(true)->current()->getMessage();
-			throw new BadRequestHttpException($error);
-		}
+        if (!($form->isSubmitted() && $form->isValid())) {
+            $error = $form->getErrors(true)->current()->getMessage();
+            throw new BadRequestHttpException($error);
+        }
 
-		$user = $form->getData();
-        $token = $userHandler->login($user);
+        $user = $form->getData();
+		$user = $userHandler->login($user);
 
-		return $this->json(
-			[
-				'user' => $user,
-				'token' => $token,
-			],
-			JsonResponse::HTTP_OK,
-			[],
-			['groups' => 'default']
-		);
-	}
+        return $this->json(
+            $user,
+            JsonResponse::HTTP_OK,
+            [],
+            ['groups' => 'default']
+        );
+    }
 }

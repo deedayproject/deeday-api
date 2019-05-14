@@ -12,23 +12,22 @@ use App\Repository\UserRepository;
 class UserHandler
 {
     private $em;
-	private $passwordEncoder;
-	private $JWTManager;
-	private $successHandler;
-	private $userRepository;
+    private $passwordEncoder;
+    private $JWTManager;
+    private $successHandler;
+    private $userRepository;
 
     public function __construct(
-		ObjectManager $em,
-		UserPasswordEncoderInterface $passwordEncoder,
-		JWTTokenManagerInterface $JWTManager,
-		AuthenticationSuccessHandler $successHandler,
-		UserRepository $userRepository
-	)
-    {
+        ObjectManager $em,
+        UserPasswordEncoderInterface $passwordEncoder,
+        JWTTokenManagerInterface $JWTManager,
+        AuthenticationSuccessHandler $successHandler,
+        UserRepository $userRepository
+    ) {
         $this->em = $em;
-		$this->passwordEncoder = $passwordEncoder;
+        $this->passwordEncoder = $passwordEncoder;
         $this->JWTManager = $JWTManager;
-		$this->successHandler = $successHandler;
+        $this->successHandler = $successHandler;
         $this->userRepository = $userRepository;
     }
 
@@ -39,14 +38,16 @@ class UserHandler
         $this->em->flush();
 
         return $user;
-	}
-	
-	public function login(User $user): string
-	{
+    }
+    
+    public function login(User $user): User
+    {
         $user = $this->userRepository->findOneBy(['email' => $user->getEmail()]);
         $token = $this->JWTManager->create($user);
 		$this->successHandler->handleAuthenticationSuccess($user, $token);
+		
+        $user->setToken($token);
 
-        return $token;
-	}
+        return $user;
+    }
 }
