@@ -27,13 +27,14 @@ class SecurityController extends AbstractController
         }
 
         $user = $form->getData();
-        $user = $userHandler->register($user);
+        $userHandler->register($user);
+        $userHandler->login($user);
 
         return $this->json(
             $user,
             JsonResponse::HTTP_CREATED,
             [],
-            ['groups' => 'default']
+            ['groups' => ['default', 'auth']]
         );
     }
 
@@ -51,7 +52,7 @@ class SecurityController extends AbstractController
         }
 
         $user = $form->getData();
-		$user = $userHandler->login($user);
+        $user = $userHandler->login($user);
 
         return $this->json(
             $user,

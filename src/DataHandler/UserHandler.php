@@ -31,7 +31,7 @@ class UserHandler
         $this->userRepository = $userRepository;
     }
 
-    public function register(User $user): User
+    public function register(User &$user): User
     {
         $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
         $this->em->persist($user);
@@ -40,12 +40,12 @@ class UserHandler
         return $user;
     }
     
-    public function login(User $user): User
+    public function login(User &$user): User
     {
         $user = $this->userRepository->findOneBy(['email' => $user->getEmail()]);
         $token = $this->JWTManager->create($user);
-		$this->successHandler->handleAuthenticationSuccess($user, $token);
-		
+        $this->successHandler->handleAuthenticationSuccess($user, $token);
+        
         $user->setToken($token);
 
         return $user;

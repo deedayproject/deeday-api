@@ -53,13 +53,13 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups({"default"})
      */
-	private $username;
-	
-	/**
-	 * @var string
-	 * @Groups({"default"})
-	 */
-	private $token;
+    private $username;
+    
+    /**
+     * @var string
+     * @Groups({"auth"})
+     */
+    private $token;
 
     public function getId(): ?int
     {
@@ -85,7 +85,14 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
+    }
+    
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -162,23 +169,16 @@ class User implements UserInterface
 
         return $this;
     }
-
-    public function setUsername(string $username): self
+    
+    public function setToken(string $token): self
     {
-        $this->username = $username;
+        $this->token = $token;
 
         return $this;
-	}
-	
-	public function setToken(string $token): self
-	{
-		$this->token = $token;
+    }
 
-        return $this;
-	}
-
-	public function getToken(): ?string
-	{
-		return $this->token;
-	}
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
 }
