@@ -78,6 +78,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "gesdinet/jwt-refresh-token-bundle": {
+        "version": "v0.6.2"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

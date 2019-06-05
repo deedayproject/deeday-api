@@ -11,27 +11,27 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RequestSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::CONTROLLER => 'getJsonContent',
-        ];
-    }
+	public static function getSubscribedEvents()
+	{
+		return [
+			KernelEvents::CONTROLLER => 'getJsonContent',
+		];
+	}
 
-    public function getJsonContent(FilterControllerEvent $event)
-    {
-        $request = $event->getRequest();
+	public function getJsonContent(FilterControllerEvent $event)
+	{
+		$request = $event->getRequest();
 
-        if ($request->getContentType() !== 'json' || !$request->getContent()) {
-            return;
-        }
+		if ($request->getContentType() !== 'json' || !$request->getContent()) {
+			return;
+		}
 
-        $data = \json_decode($request->getContent(), true);
+		$data = \json_decode($request->getContent(), true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new BadRequestHttpException('invalid json body: ' . json_last_error_msg());
-        }
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			throw new BadRequestHttpException('invalid json body: ' . json_last_error_msg());
+		}
 
-        $request->request->replace(is_array($data) ? $data : []);
-    }
+		$request->request->replace(is_array($data) ? $data : []);
+	}
 }

@@ -3,16 +3,27 @@ security:
         App\Entity\User:
             algorithm: argon2i
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
     firewalls:
+        login:
+            pattern:  ^/api/login_check$
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
         auth:
             pattern:  ^/api/v\d/(login|register)$
+            stateless: true
+            anonymous: true
+
+        refresh:
+            pattern:  ^/api/token/refresh$
             stateless: true
             anonymous: true
         api:
@@ -27,5 +38,7 @@ security:
             anonymous: true
 
     access_control:
+        - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v\d/(login|register), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
