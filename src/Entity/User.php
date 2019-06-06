@@ -61,6 +61,12 @@ class User implements UserInterface
      */
     private $token;
 
+    /**
+     * @var string
+     * @Groups({"auth"})
+     */
+    private $refreshToken;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,4 +187,16 @@ class User implements UserInterface
     {
         return $this->token;
     }
+
+	public function setRefreshToken(string $token): self
+	{
+        $this->refreshToken = $token;
+
+		return $this;
+	}
+
+	public function getRefreshToken(): ?string
+	{
+        return $this->refreshToken;
+	}
 }
