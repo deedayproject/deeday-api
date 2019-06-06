@@ -16,52 +16,52 @@ use App\Entity\User;
 
 class UserRegisterType extends AbstractType
 {
-	/**
-	 * Length: 8
-	 * Capital: 1
-	 * Digits: 1
-	 */
-	const PASSWORD_PATTERN = "/^(?=(?:.*[A-Z]){1,})(?=(?:.*\d){1,})(.{8,})$/";
+    /**
+     * Length: 8
+     * Capital: 1
+     * Digits: 1.
+     */
+    const PASSWORD_PATTERN = "/^(?=(?:.*[A-Z]){1,})(?=(?:.*\d){1,})(.{8,})$/";
 
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder
-			->add('firstname', TextType::class, [
-				'constraints' => [
-					new NotBlank,
-				],
-			])
-			->add('lastname', TextType::class, [
-				'constraints' => [
-					new NotBlank,
-				],
-			])
-			->add('username', TextType::class, [
-				'constraints' => [
-					new NotBlank,
-					new Length(['min' => 4])
-				],
-			])
-			->add('email', EmailType::class, [
-				'constraints' => [
-					new NotBlank,
-					new Email,
-				],
-			])
-			->add('password', PasswordType::class, [
-				'constraints' => [
-					new Length(['min' => 8]),
-					new Regex(['pattern' => self::PASSWORD_PATTERN]),
-				]
-			])
-		;
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new NotBlank,
+                ],
+            ])
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new NotBlank,
+                ],
+            ])
+            ->add('username', TextType::class, [
+                'constraints' => [
+                    new NotBlank,
+                    new Length(['min' => 4]),
+                ],
+            ])
+            ->add('email', EmailType::class, [
+                'constraints' => [
+                    new NotBlank,
+                    new Email,
+                ],
+            ])
+            ->add('password', PasswordType::class, [
+                'constraints' => [
+                    new Length(['min' => 8]),
+                    new Regex(['pattern' => self::PASSWORD_PATTERN]),
+                ],
+            ])
+        ;
+    }
 
-	public function configureOptions(OptionsResolver $resolver)
-	{
-		$resolver->setDefaults([
-			'data_class' => User::class,
-			'csrf_protection' => false,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'csrf_protection' => false,
+        ]);
+    }
 }

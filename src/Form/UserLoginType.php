@@ -16,51 +16,49 @@ use App\Repository\UserRepository;
 
 class UserLoginType extends AbstractType
 {
-	private $userRepository;
-	private $passwordEncoderInterface;
+    private $userRepository;
+    private $passwordEncoderInterface;
 
-	public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoderInterface)
-	{
-		$this->userRepository = $userRepository;
-		$this->passwordEncoderInterface = $passwordEncoderInterface;
-	}
-	
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder
-			->add('email', TextType::class, [
-				'constraints' => [
-					new NotBlank,
-					new Email,
-				],
-			])
-			->add('password', TextType::class, [
-				'constraints' => new Callback([$this, 'checkPassword']),
-			])
-		;
-	}
+    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoderInterface)
+    {
+        $this->userRepository = $userRepository;
+        $this->passwordEncoderInterface = $passwordEncoderInterface;
+    }
 
-	public function configureOptions(OptionsResolver $resolver)
-	{
-		$resolver->setDefaults([
-			'data_class' => User::class,
-			'csrf_protection' => false,
-		]);
-	}
-	
-	public function checkPassword($value, ExecutionContextInterface $context)
-	{
-		$form = $context->getRoot();
-		$data = $form->getData();
-		
-		$user = $this->userRepository->findOneBy(['email' => $data->getEmail()]);
-		if (
-			null === $user ||
-			!$this->passwordEncoderInterface->isPasswordValid($user, $value)
-		) {
-			$context
-				->buildViolation('Email / password combination is not valid.')
-				->addViolation();
-		}
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('email', TextType::class, [
+                'constraints' => [
+                    new NotBlank,
+                    new Email,
+                ],
+            ])
+            ->add('password', TextType::class, [
+                'constraints' => new Callback([$this, 'checkPassword']),
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'csrf_protection' => false,
+        ]);
+    }
+
+    public function checkPassword($value, ExecutionContextInterface $context)
+    {
+        $form = $context->getRoot();
+        $data = $form->getData();
+
+        $user = $this->userRepository->findOneBy(['email' => $data->getEmail()]);
+        $isNotValid = null === user || !$this->passwordEncoderInterface->isPasswordValid($user, $value);
+        if ($isNotValid) {
+            $context
+                ->buildViolation('Email / password combination is not valid.')
+                ->addViolation();
+        }
+    }
 }

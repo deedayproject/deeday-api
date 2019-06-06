@@ -1,0 +1,22 @@
+version: 2
+
+checks:
+    method-lines:
+        config:
+            threshold: 40
+
+plugins:
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "PSR2"
+      encoding: utf-8
+
+exclude_patterns:
+    - vendor
+    - var
+    - bin
+    - config
+    - public
+    - src/Migrations
