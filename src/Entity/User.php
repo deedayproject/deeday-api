@@ -54,7 +54,7 @@ class User implements UserInterface
      * @Groups({"default"})
      */
     private $username;
-    
+
     /**
      * @var string
      * @Groups({"auth"})
@@ -93,7 +93,7 @@ class User implements UserInterface
     {
         return (string) $this->username;
     }
-    
+
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -175,7 +175,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
     public function setToken(string $token): self
     {
         $this->token = $token;
@@ -188,15 +188,15 @@ class User implements UserInterface
         return $this->token;
     }
 
-	public function setRefreshToken(string $token): self
-	{
+    public function setRefreshToken(string $token): self
+    {
         $this->refreshToken = $token;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getRefreshToken(): ?string
-	{
+    public function getRefreshToken(): ?string
+    {
         return $this->refreshToken;
-	}
+    }
 }

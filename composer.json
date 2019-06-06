@@ -48,7 +48,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "security-checker security:check": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -67,6 +68,9 @@
         }
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "phpro/grumphp": "^0.15.2",
+        "sensiolabs/security-checker": "^6.0",
         "symfony/var-dumper": "4.2.*"
     }
 }
