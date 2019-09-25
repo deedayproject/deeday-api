@@ -1,6 +1,11 @@
 parameters:
     app_secret: ''
     database_driver: 'pgsql'
+    db_name:
+    db_user:
+    db_host:
+    db_port: 5432
+    db_password:
     database_version: '11'
     rsa_key_password: ''
     scheme: 'http://'
